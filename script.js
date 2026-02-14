@@ -1,10 +1,15 @@
 const plank = document.getElementById("plank");
+const dropZone = document.getElementById("dropZone");
 
 const STORAGE_KEY = "seesaw_objects";
+
 const leftWeightEl = document.getElementById("leftWeight");
 const rightWeightEl = document.getElementById("rightWeight");
 const leftTorqueEl = document.getElementById("leftTorque");
 const rightTorqueEl = document.getElementById("rightTorque");
+const nextWeightEl = document.getElementById("nextWeight");
+const tiltAngleEl = document.getElementById("tiltAngle");
+
 const resetBtn = document.getElementById("resetBtn");
 const logEl = document.getElementById("log");
 
@@ -13,14 +18,17 @@ let objects = loadState();
 let nextWeight = getRandomWeight();
 let previewEl = null;
 
+nextWeightEl.textContent = nextWeight;
+
 renderAllObjects();
 updateSeesaw();
 
-plank.addEventListener("click", (event) => {
-    const rect = plank.getBoundingClientRect();
+dropZone.addEventListener("click", (event) => {
+    const plankRect = plank.getBoundingClientRect();
+    const sceneRect = dropZone.getBoundingClientRect();
 
-    const clickX = event.clientX - rect.left;   // Click'in plank üzerindeki X pozisyonu
-    const pivotX = rect.width / 2;              // Pivot merkezde : plank genişliğinin yarısı
+    const clickX = event.clientX - plankRect.left;   // Click'in plank üzerindeki X pozisyonu
+    const pivotX = plankRect.width / 2;              // Pivot merkezde : plank genişliğinin yarısı
     const distanceFromPivot = clickX - pivotX;  // Distance: sola negatif, sağa pozitif
     const side = distanceFromPivot < 0 ? "left" : "right";
 
@@ -36,20 +44,15 @@ plank.addEventListener("click", (event) => {
     objects.push(newObject);
 
     saveState();
-    renderObject(newObject);
+    renderFallingObject(newObject, event.clientY - sceneRect.top);
     updateSeesaw();
-    console.log(objects);
-    addLog(`${weight}kg dropped on ${side} at ${Math.round(Math.abs(distanceFromPivot))}px`);
 
+    addLog(`🏋️‍♂️ ${weight} KG dropped on ${side} at ${Math.round(Math.abs(distanceFromPivot))}px`);
 });
 
-function addLog(text) {
-    const item = document.createElement("div");
-    item.textContent = text;
-    logEl.prepend(item);
-}
 
-plank.addEventListener("mousemove", (e) => {
+
+dropZone.addEventListener("mousemove", (e) => {
     const rect = plank.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const distance = clickX - rect.width / 2;
@@ -64,13 +67,29 @@ plank.addEventListener("mousemove", (e) => {
     previewEl.textContent = nextWeight;
 });
 
-plank.addEventListener("mouseleave", () => {
+dropZone.addEventListener("mouseleave", () => {
     if (previewEl) previewEl.remove();
     previewEl = null;
 });
 
 function renderAllObjects() {
     objects.forEach(renderObject);
+}
+
+function renderFallingObject(obj, startY) {
+    const el = document.createElement("div");
+    el.className = "weight";
+
+    el.style.left = `calc(50% + ${obj.distance}px)`;
+    el.style.bottom = `${200 - startY}px`;
+    el.textContent = obj.weight;
+
+    plank.appendChild(el);
+
+    requestAnimationFrame(() => {
+        el.style.bottom = "10px";
+        el.style.transition = "bottom 0.5s cubic-bezier(.2,.8,.2,1)";
+    });
 }
 
 function getRandomWeight() {
@@ -119,7 +138,14 @@ function updateSeesaw() {
     rightWeightEl.textContent = rightWeight;
     leftTorqueEl.textContent = Math.round(leftTorque);
     rightTorqueEl.textContent = Math.round(rightTorque);
+    tiltAngleEl.textContent = angle.toFixed(1);
+    nextWeightEl.textContent = nextWeight;
+}
 
+function addLog(text) {
+    const item = document.createElement("div");
+    item.textContent = text;
+    logEl.prepend(item);
 }
 
 function clamp(value, min, max) {

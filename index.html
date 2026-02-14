@@ -11,20 +11,23 @@
 <body>
 
     <div class="scene">
+        <div class="cards">
+            <div class="card">NEXT WEIGHT<br><span id="nextWeight">0</span> kg</div>
+            <div class="card">LEFT<br><span id="leftWeight">0</span> kg</div>
+            <div class="card">RIGHT<br><span id="rightWeight">0</span> kg</div>
+            <div class="card">ANGLE<br><span id="tiltAngle">0</span>°</div>
+            <div class="card">LEFT TORQUE <br><span id="leftTorque">0</span> Nm</div>
+            <div class="card">RIGHT TORQUE<br><span id="rightTorque">0</span> Nm</div>
+        </div>
+
         <div class="pivot"></div>
         <div id="plank" class="plank"></div>
-
-        <div class="info">
-            <div>Left: <span id="leftWeight">0</span> kg</div>
-            <div>Right: <span id="rightWeight">0</span> kg</div>
-            <div>Left torque: <span id="leftTorque">0</span></div>
-            <div>Right torque: <span id="rightTorque">0</span></div>
-        </div>
 
         <button id="resetBtn" class="reset-btn">Reset</button>
 
         <div id="log" class="log"></div>
 
+        <div id="dropZone" class="drop-zone"></div>
     </div>
 
     <script src="script.js"></script>

@@ -9,14 +9,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f3f4f6;
+    background: #e5e7eb;
     font-family: Arial, sans-serif;
 }
 
 .scene {
     position: relative;
     width: 500px;
-    height: 200px;
+    height: 250px;
 }
 
 .pivot {
@@ -36,7 +36,7 @@ body {
     bottom: 70px;
     left: 50%;
     transform: translateX(-50%) rotate(0deg);
-    width: 400px;
+    width: 500px;
     height: 10px;
     background: #8b5cf6;
     border-radius: 5px;
@@ -61,19 +61,9 @@ body {
     pointer-events: none;
 }
 
-.info {
-    position: absolute;
-    top: -40px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-    color: #333;
-}
-
 .reset-btn {
     position: absolute;
-    bottom: -50px;
+    bottom: -80px;
     left: 50%;
     transform: translateX(-50%);
     padding: 8px 16px;
@@ -102,13 +92,46 @@ body {
 
 .log {
     position: absolute;
-    bottom: -140px;
+    bottom: -190px;
     width: 100%;
-    max-height: 80px;
+    max-height: 100px;
     overflow-y: auto;
     font-size: 12px;
     background: #fff;
     border-radius: 6px;
     padding: 6px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.drop-zone {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+}
+
+.cards {
+  position: absolute;
+  top: -130px;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.card {
+  background: #fff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+}
+
+.card span {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  color: #111;
+  margin-top: 4px;
 }

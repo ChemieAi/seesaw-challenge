@@ -43,3 +43,20 @@ body {
   transform-origin: center center;
   transition: transform 0.4s ease-out;
 }
+
+.weight {
+  position: absolute;
+  bottom: 10px;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #f59e0b;
+  color: #111;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  pointer-events: none;
+}
